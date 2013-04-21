@@ -6,22 +6,27 @@ import unicodedata
 from definitions import *
 
 def decompose(str):
-    jamo_str = unicodedata.normalize('NFD', str)
-    # 더 좋은 방법이 있을 수도 있겠지만, 일단...
-    for k, v in KO_JONGSEONG_DIVIDE_TBL.items():
-        if jamo_str.find(k) >= 0:
-            jamo_str = jamo_str.replace(k,v)
-    return jamo_str
+    str = nfd(str)
+    # # 더 좋은 방법이 있을 수도 있겠지만, 일단...
+    # for k, v in KO_JONGSEONG_DIVIDE_TBL.items():
+    #     str = str.replace(k,v)
+    res = ''
+    for c in str:
+        if c in KO_JONGSEONG_DIVIDE_TBL:
+            res += KO_JONGSEONG_DIVIDE_TBL[c]
+        else:
+            res += c
+    return res
 
 def to_braille(str):
     # 약어
-    for k,v in ABBREV_WORDS.items():
+    for k,v in ABBREV_WORDS:
         str = k.sub(v, str)
         
     str = decompose(str)
 
     # 모음연쇄, 약자
-    for k,v in ABBREV_JAMO_GROUP.items():
+    for k,v in ABBREV_JAMO_GROUP:
         str = k.sub(v, str)
     
     res = ''

@@ -7,9 +7,6 @@ from definitions import *
 
 def decompose(str):
     str = nfd(str)
-    # # 더 좋은 방법이 있을 수도 있겠지만, 일단...
-    # for k, v in KO_JONGSEONG_DIVIDE_TBL.items():
-    #     str = str.replace(k,v)
     res = ''
     for c in str:
         if c in KO_JONGSEONG_DIVIDE_TBL:
@@ -19,15 +16,16 @@ def decompose(str):
     return res
 
 def to_braille(str):
+    # MARK 모든 regex 를 일일이 탐색하는 것은 글쎄...
     # 약어
-    for k,v in ABBREV_WORDS:
-        str = k.sub(v, str)
+    for p,s in ABBREV_WORDS:
+        str = p.sub(s, str)
         
     str = decompose(str)
 
     # 모음연쇄, 약자
-    for k,v in ABBREV_JAMO_GROUP:
-        str = k.sub(v, str)
+    for p,s in ABBREV_JAMO_GROUP:
+        str = p.sub(s, str)
     
     res = ''
     for c in str:

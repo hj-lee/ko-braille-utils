@@ -8,13 +8,7 @@ from hj_uni_utils import *
 # Braille Pattern
 define_unicode_vars(globals(), 0x2800, 0x283f, 'BRAILLE PATTERN ', 'BR_')
 
-# Compatibility Jamo
-define_unicode_vars(globals(), 0x3131, 0x3163, 'HANGUL LETTER ', 'COMPAT_')
-
-def decompose(str):
-    return unicodedata.normalize('NFD', str)
-
-BASE_KOR_BRAILLE_TBL = {
+KO_CHOSUNG_BRAILLE_TBL = {
     L_KIYEOK : BR_DOTS_4,
     L_SSANGKIYEOK : BR_DOTS_6 + BR_DOTS_4,
     L_NIEUN : BR_DOTS_14,
@@ -34,7 +28,9 @@ BASE_KOR_BRAILLE_TBL = {
     L_THIEUTH : BR_DOTS_125,
     L_PHIEUPH : BR_DOTS_145,
     L_HIEUH : BR_DOTS_245,
+}
 
+KO_JUNGSEONG_BRAILLE_TBL = {
     V_A : BR_DOTS_126,
     V_AE : BR_DOTS_1235,
     V_YA : BR_DOTS_345,
@@ -56,7 +52,9 @@ BASE_KOR_BRAILLE_TBL = {
     V_EU : BR_DOTS_246,
     V_YI : BR_DOTS_2456,
     V_I : BR_DOTS_135,
+}
 
+KO_JONGSEONG_BRAILLE_TBL = {
     T_KIYEOK : BR_DOTS_1,
     T_SSANGKIYEOK : BR_DOTS_1 + BR_DOTS_1,
     T_KIYEOK_SIOS : BR_DOTS_1 + BR_DOTS_3,
@@ -84,78 +82,48 @@ BASE_KOR_BRAILLE_TBL = {
     T_THIEUTH : BR_DOTS_236,
     T_PHIEUPH : BR_DOTS_256,
     T_HIEUH : BR_DOTS_356,
-    }
+}
 
-# Hangul Compatibility Jamo 에는 초성과 종성의 구분이 없다
-COMPAT_TBL = {
-    COMPAT_KIYEOK : BR_DOTS_4,
-    COMPAT_SSANGKIYEOK : BR_DOTS_6 + BR_DOTS_4,
-    COMPAT_NIEUN : BR_DOTS_14,
-    COMPAT_TIKEUT : BR_DOTS_24,
-    COMPAT_SSANGTIKEUT : BR_DOTS_6 + BR_DOTS_24,
-    COMPAT_RIEUL : BR_DOTS_5,
-    COMPAT_MIEUM : BR_DOTS_15,
-    COMPAT_PIEUP : BR_DOTS_45,
-    COMPAT_SSANGPIEUP : BR_DOTS_6 + BR_DOTS_45,
-    COMPAT_SIOS : BR_DOTS_6,
-    COMPAT_SSANGSIOS : BR_DOTS_6 + BR_DOTS_6,
-    COMPAT_IEUNG : BR_DOTS_1245,
-    COMPAT_CIEUC : BR_DOTS_46,
-    COMPAT_SSANGCIEUC : BR_DOTS_6 + BR_DOTS_46,
-    COMPAT_CHIEUCH : BR_DOTS_56,
-    COMPAT_KHIEUKH : BR_DOTS_124,
-    COMPAT_THIEUTH : BR_DOTS_125,
-    COMPAT_PHIEUPH : BR_DOTS_145,
-    COMPAT_HIEUH : BR_DOTS_245,
+JAMO_TBL = KO_CHOSUNG_BRAILLE_TBL.copy()
+JAMO_TBL.update(KO_JUNGSEONG_BRAILLE_TBL)
+JAMO_TBL.update(KO_JONGSEONG_BRAILLE_TBL)
 
-    COMPAT_A : BR_DOTS_126,
-    COMPAT_AE : BR_DOTS_1235,
-    COMPAT_YA : BR_DOTS_345,
-    COMPAT_YAE : BR_DOTS_345 + BR_DOTS_1235,
-    COMPAT_EO : BR_DOTS_234,
-    COMPAT_E : BR_DOTS_1345,
-    COMPAT_YEO : BR_DOTS_156,
-    COMPAT_YE : BR_DOTS_34,
-    COMPAT_O : BR_DOTS_136,
-    COMPAT_WA : BR_DOTS_1236,
-    COMPAT_WAE : BR_DOTS_1236 + BR_DOTS_1235,
-    COMPAT_OE : BR_DOTS_13456,
-    COMPAT_YO : BR_DOTS_346,
-    COMPAT_U : BR_DOTS_134,
-    COMPAT_WEO : BR_DOTS_1234,
-    COMPAT_WE : BR_DOTS_1234 + BR_DOTS_1235,
-    COMPAT_WI : BR_DOTS_134 + BR_DOTS_1235,
-    COMPAT_YU : BR_DOTS_146,
-    COMPAT_EU : BR_DOTS_246,
-    COMPAT_YI : BR_DOTS_2456,
-    COMPAT_I : BR_DOTS_135,
-
-    COMPAT_KIYEOK_SIOS : BR_DOTS_1 + BR_DOTS_3,
-    COMPAT_NIEUN_CIEUC : BR_DOTS_25 + BR_DOTS_13,
-    COMPAT_NIEUN_HIEUH : BR_DOTS_25 + BR_DOTS_356,
-    COMPAT_RIEUL_KIYEOK : BR_DOTS_2 + BR_DOTS_1,
-    COMPAT_RIEUL_MIEUM : BR_DOTS_2 + BR_DOTS_26,
-    COMPAT_RIEUL_PIEUP : BR_DOTS_2 + BR_DOTS_12,
-    COMPAT_RIEUL_SIOS : BR_DOTS_2 + BR_DOTS_3,
-    COMPAT_RIEUL_THIEUTH : BR_DOTS_2 + BR_DOTS_236,
-    COMPAT_RIEUL_PHIEUPH : BR_DOTS_2 + BR_DOTS_256,
-    COMPAT_RIEUL_HIEUH : BR_DOTS_2 + BR_DOTS_356,
-    COMPAT_PIEUP_SIOS : BR_DOTS_12 + BR_DOTS_3,
-    }
-
-SIMPLE_KOR_BRAILLE_TBL = BASE_KOR_BRAILLE_TBL.copy()
-SIMPLE_KOR_BRAILLE_TBL[L_IEUNG] = ''
+SIMPLE_TR_TBL = JAMO_TBL.copy()
+SIMPLE_TR_TBL[L_IEUNG] = ''
 
 # 온표
-BR_WHOLE_KO = BR_DOTS_123456
+BR_KO_WHOLE = BR_DOTS_123456
+
+# 붙임표
+BR_KR_CONT = BR_DOTS_36
+
+# Hangul Compatibility Jamo 를 Hangul Jamo 로
+# Hangul Compatibility Jamo 에는 초성과 종성의 구분이 없다
+def add_compat_to_tr_tbl(c):
+    name = unicodedata.name(c)
+    letter_name = name.replace('HANGUL LETTER ', '').replace('-', '_')
+    dic = globals()
+    names = map(lambda p: p + letter_name ,['L_', 'V_', 'T_'])
+    for name in names:
+        if (name in globals()):
+            jamo_c = globals()[name]
+            SIMPLE_TR_TBL[c] = BR_KO_WHOLE + JAMO_TBL[jamo_c]
+            break
+
+for code in range(0x3131, 0x318e + 1):
+    add_compat_to_tr_tbl(chr(code))
+
+###################    
     
+def decompose(str):
+    return unicodedata.normalize('NFD', str)
 
 def to_braille(str):
     str = decompose(str)
     res = ''
     for c in str:
-        if c in SIMPLE_KOR_BRAILLE_TBL:
-            res += SIMPLE_KOR_BRAILLE_TBL[c]
+        if c in SIMPLE_TR_TBL:
+            res += SIMPLE_TR_TBL[c]
         else:
             res += c
     return res

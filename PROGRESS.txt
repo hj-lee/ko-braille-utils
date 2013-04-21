@@ -1,0 +1,5 @@
+1장
+ 1~3절 완료
+ 4절(단독으로 쓰인 자모)
+  - Hangul Compatibility Jamo 인 경우에만 사용.
+  - Hangul Jamo 는 풀어 쓰기 개념으로 처리된다.

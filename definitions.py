@@ -144,7 +144,7 @@ for code in range(0x3131, 0x318e + 1):
 # 종성이 포함된 약자 처리를 위해서
 KO_JONGSEONG_DIVIDE_TBL = {
     _t('앆') : _t('악') + _t('악'),
-    _t('앇') : _t('악') + _t('악'),
+    _t('앇') : _t('악') + _t('앗'),
     _t('앉') : _t('안') + _t('앚'),
     _t('않') : _t('안') + _t('앟'),
     _t('앍') : _t('알') + _t('악'),
@@ -224,6 +224,21 @@ ABBREV_JAMO_GROUP = [
     (re.compile(nfd('타') + _neg_re(_l('아'))), BR_DOTS_125),
     (re.compile(nfd('파') + _neg_re(_l('아'))), BR_DOTS_145),
     (re.compile(nfd('하') + _neg_re(_l('아'))), BR_DOTS_245),
+    # 6절 12항 중성 종성
+    (re.compile(_vt('억')), BR_DOTS_1456),
+    (re.compile(_vt('언')), BR_DOTS_23456),
+    (re.compile(_vt('얼')), BR_DOTS_2345),
+    (re.compile(_vt('연')), BR_DOTS_16),
+    (re.compile(_vt('열')), BR_DOTS_1256),
+    (re.compile(_vt('영')), BR_DOTS_12456),
+    (re.compile(_vt('옥')), BR_DOTS_1346),
+    (re.compile(_vt('온')), BR_DOTS_12356),
+    (re.compile(_vt('옹')), BR_DOTS_123456),
+    (re.compile(_vt('운')), BR_DOTS_1245),
+    (re.compile(_vt('울')), BR_DOTS_12346),
+    (re.compile(_vt('은')), BR_DOTS_1356),
+    (re.compile(_vt('을')), BR_DOTS_2346),
+    (re.compile(_vt('인')), BR_DOTS_12345),
 ]
 
     

@@ -36,35 +36,26 @@
 #
 # ***** END LICENSE BLOCK *****
 
-L_START = 0x1100
-L_END = 0x1112
-V_START = 0x1161
-V_END = 0x1175
-T_START = 0x11a8
-T_END = 0x11c2
-
-L_ALL = ''.join([chr(c) for c in range(L_START, L_END + 1)])
-V_ALL = ''.join([chr(c) for c in range(V_START, V_END + 1)])
-T_ALL = ''.join([chr(c) for c in range(T_START, T_END + 1)])
-
-__all__ = ['L_START', 'L_END', 'V_START', 'V_END', 'T_START', 'T_END',
-           'L_ALL', 'V_ALL', 'T_ALL', 'define_jamos']
-
-def define_jamos(jamos, unicodeprefix, prefix):
+def define_unicode_vars(dic, start, end, unicodeprefix, prefix):
     import unicodedata
-    for jamo in jamos:
-        unicodename = unicodedata.name(jamo)
+    for code in range(start, end + 1):
+        char = chr(code)
+        unicodename = unicodedata.name(char)
         if not unicodename.startswith(unicodeprefix):
-            raise "BUG"
+            raise "Code name mismatch"
         name = prefix + unicodename[len(unicodeprefix):].replace('-', '_')
-        __all__.append(name)
-        globals()[name] = jamo
+        dic[name] = char
 
-define_jamos(L_ALL, 'HANGUL CHOSEONG ', 'L_')
-define_jamos(V_ALL, 'HANGUL JUNGSEONG ', 'V_')
-define_jamos(T_ALL, 'HANGUL JONGSEONG ', 'T_')
+_L_START = 0x1100
+_L_END = 0x1112
+_V_START = 0x1161
+_V_END = 0x1175
+_T_START = 0x11a8
+_T_END = 0x11c2
 
-
-# Braille Pattern
-
-define_jamos(''.join([chr(c) for c in range(0x2800, 0x283f + 1)]), 'BRAILLE PATTERN ', 'BR_')
+def _define_jamo(start, end, unicodeprefix, prefix):
+    define_unicode_vars(globals(), start, end, unicodeprefix, prefix)        
+        
+_define_jamo(_L_START, _L_END, 'HANGUL CHOSEONG ', 'L_')
+_define_jamo(_V_START, _V_END, 'HANGUL JUNGSEONG ', 'V_')
+_define_jamo(_T_START, _T_END, 'HANGUL JONGSEONG ', 'T_')

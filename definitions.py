@@ -160,8 +160,6 @@ KO_JONGSEONG_DIVIDE_TBL = {
     
 ###################
 
-# MARK regex 대신 단순 string search 가 더 낳은 것들이 있다.
-
 ABBREV_WORDS = [
     (re.compile('\\b그래서'), br(1) + br(234)),
     (re.compile('\\b그러나'), br(1) + br(14)),

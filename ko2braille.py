@@ -3,7 +3,7 @@
 import sys
 import unicodedata
 
-from jamo import *
+from hj_uni_utils import *
 
 # Braille Pattern
 define_unicode_vars(globals(), 0x2800, 0x283f, 'BRAILLE PATTERN ', 'BR_')
@@ -143,13 +143,12 @@ COMPAT_TBL = {
     COMPAT_PIEUP_SIOS : BR_DOTS_12 + BR_DOTS_3,
     }
 
+SIMPLE_KOR_BRAILLE_TBL = BASE_KOR_BRAILLE_TBL.copy()
+SIMPLE_KOR_BRAILLE_TBL[L_IEUNG] = ''
+
 # 온표
 BR_WHOLE_KO = BR_DOTS_123456
     
-
-    
-SIMPLE_KOR_BRAILLE_TBL = BASE_KOR_BRAILLE_TBL.copy()
-SIMPLE_KOR_BRAILLE_TBL[L_IEUNG] = ''
 
 def to_braille(str):
     str = decompose(str)

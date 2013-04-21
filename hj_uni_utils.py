@@ -49,16 +49,16 @@ def define_unicode_vars(dic, start, end, unicodeprefix, prefix):
         name = prefix + unicodename[len(unicodeprefix):].replace('-', '_')
         dic[name] = char
 
-_L_START = 0x1100
-_L_END = 0x1112
-_V_START = 0x1161
-_V_END = 0x1175
-_T_START = 0x11a8
-_T_END = 0x11c2
+L_START = 0x1100
+L_END = 0x1112
+V_START = 0x1161
+V_END = 0x1175
+T_START = 0x11a8
+T_END = 0x11c2
 
 def _define_jamo(start, end, unicodeprefix, prefix):
     define_unicode_vars(globals(), start, end, unicodeprefix, prefix)        
         
-_define_jamo(_L_START, _L_END, 'HANGUL CHOSEONG ', 'L_')
-_define_jamo(_V_START, _V_END, 'HANGUL JUNGSEONG ', 'V_')
-_define_jamo(_T_START, _T_END, 'HANGUL JONGSEONG ', 'T_')
+_define_jamo(L_START, L_END, 'HANGUL CHOSEONG ', 'L_')
+_define_jamo(V_START, V_END, 'HANGUL JUNGSEONG ', 'V_')
+_define_jamo(T_START, T_END, 'HANGUL JONGSEONG ', 'T_')

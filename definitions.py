@@ -17,7 +17,7 @@ BR_KO_SSANG = BR_DOTS_6
 BR_KO_WHOLE = BR_DOTS_123456
 
 # 붙임표
-BR_KR_CONT = BR_DOTS_36
+BR_KO_CONT = BR_DOTS_36
 
 
 KO_CHOSUNG_BRAILLE_TBL = {
@@ -147,4 +147,48 @@ ABBREV_WORDS = {
     re.compile('\\b그런데') : BR_DOTS_1 + BR_DOTS_1345,
     re.compile('\\b그리고') : BR_DOTS_1 + BR_DOTS_136,
     re.compile('\\b그리하여') : BR_DOTS_1 + BR_DOTS_156,
+    # 6절 12항 중
+    re.compile('것') : BR_DOTS_456 + BR_DOTS_234,
+    # 6절 14항 중
+    re.compile('껏') : BR_KO_SSANG + BR_DOTS_456 + BR_DOTS_234,
+    # 6절 16항
+    re.compile('성') : JAMO_TBL[L_SIOS] + BR_DOTS_12456,
+    re.compile('썽') : JAMO_TBL[L_SSANGSIOS] + BR_DOTS_12456,
+    re.compile('정') : JAMO_TBL[L_CIEUC] + BR_DOTS_12456,
+    re.compile('쩡') : JAMO_TBL[L_SSANGCIEUC] + BR_DOTS_12456,
+    re.compile('청') : JAMO_TBL[L_CHIEUCH] + BR_DOTS_12456,
 }
+
+V_CLASS = '[' + ''.join([chr(c) for c in range(V_START, V_END + 1)]) + ']'
+T_CLASS = '[' + ''.join([chr(c) for c in range(T_START, T_END + 1)]) + ']'
+
+PRE_AE_V = '[' + V_YA + V_WA + V_U + V_WEO + ']'
+
+def _ext_re(ext, str):
+    return '(?' + ext + str + ')'
+
+# Positive lookbehind assertion
+def _lookbehind_re(str):
+    return _ext_re('<=', str)
+
+# Negative lookahead_assertion
+def _neg_re(str):
+    return _ext_re('!', str)
+
+
+ABBREV_JAMO_GROUP = {
+    # 5절 10항
+    re.compile(_lookbehind_re(V_CLASS) +
+               L_IEUNG + V_YE) : BR_KO_CONT + JAMO_TBL[V_YE],
+    # 5절 11항
+    re.compile(_lookbehind_re(PRE_AE_V) +
+               L_IEUNG + V_AE) : BR_KO_CONT + JAMO_TBL[V_AE],
+    
+}
+
+
+# import sys
+
+# for k,v in ABBREV_JAMO_GROUP.items():
+#     print(k.pattern, file=sys.stderr)
+

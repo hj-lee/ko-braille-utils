@@ -3,6 +3,7 @@
 # Global definitions
 
 import unicodedata
+import re
 
 from hj_uni_utils import *
 
@@ -136,4 +137,14 @@ KO_JONGSEONG_DIVIDE_TBL = {
     T_RIEUL_HIEUH : T_RIEUL + T_HIEUH,
     T_PIEUP_SIOS : T_PIEUP + T_SIOS,
     # T_SSANGSIOS 은 따로 약자가 있고 연계된 약자가 없기 때문에 변환 하지 않음
+}
+
+ABBREV_WORDS = {
+    re.compile('\\b그래서') : BR_DOTS_1 + BR_DOTS_234,
+    re.compile('\\b그러나') : BR_DOTS_1 + BR_DOTS_14,
+    re.compile('\\b그러면') : BR_DOTS_1 + BR_DOTS_25,
+    re.compile('\\b그러므로') : BR_DOTS_1 + BR_DOTS_26,
+    re.compile('\\b그런데') : BR_DOTS_1 + BR_DOTS_1345,
+    re.compile('\\b그리고') : BR_DOTS_1 + BR_DOTS_136,
+    re.compile('\\b그리하여') : BR_DOTS_1 + BR_DOTS_156,
 }

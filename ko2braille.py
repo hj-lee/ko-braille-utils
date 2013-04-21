@@ -14,6 +14,9 @@ def decompose(str):
     return jamo_str
 
 def to_braille(str):
+    # 약어
+    for k,v in ABBREV_WORDS.items():
+        str = k.sub(v, str)
     str = decompose(str)
     res = ''
     for c in str:

@@ -204,7 +204,7 @@ def _lookbehind_re(str):
     return _ext_re('<=', str)
 
 # Negative lookahead_assertion
-def _neg_re(str):
+def _neg_lookahead_re(str):
     return _ext_re('!', str)
 
 
@@ -221,16 +221,6 @@ ABBREV_JAMO_GROUP = [
     # 6절 14항 까, 싸
     (re.compile(nfd('까')), BR_KO_SSANG + br(1246)),
     (re.compile(nfd('싸')), BR_KO_SSANG + br(123)),
-    # 6절 17항
-    (re.compile(nfd('나') + _neg_re(l('아'))), br(14)),
-    (re.compile(nfd('다') + _neg_re(l('아'))), br(24)),
-    (re.compile(nfd('마') + _neg_re(l('아'))), br(15)),
-    (re.compile(nfd('바') + _neg_re(l('아'))), br(45)),
-    (re.compile(nfd('자') + _neg_re(l('아'))), br(46)),
-    (re.compile(nfd('카') + _neg_re(l('아'))), br(124)),
-    (re.compile(nfd('타') + _neg_re(l('아'))), br(125)),
-    (re.compile(nfd('파') + _neg_re(l('아'))), br(145)),
-    (re.compile(nfd('하') + _neg_re(l('아'))), br(245)),
     # 6절 12항 중성 종성
     (re.compile(vt('억')), br(1456)),
     (re.compile(vt('언')), br(23456)),
@@ -247,3 +237,10 @@ ABBREV_JAMO_GROUP = [
     (re.compile(vt('을')), br(2346)),
     (re.compile(vt('인')), br(12345)),
 ]
+
+# 6절 12항, 17항
+# 이들의 약자는 첫소리 자음의 점자와 같다
+for c in ['나', '다', '마', '바', '자', '카', '타', '파', '하']:
+    ABBREV_JAMO_GROUP.append(
+        (re.compile(nfd(c) + _neg_lookahead_re(l('아'))), JAMO_TBL[l(c)]))
+    

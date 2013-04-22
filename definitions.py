@@ -114,6 +114,70 @@ KO_JONGSEONG_BRAILLE_TBL = {
     t('앟') : br(356),
 }
 
+KO_SYMBOL_TBL = {
+    '.' : br(256),
+    '?' : br(236),
+    '!' : br(235),
+    ',' : br(5),
+    # 가웃뎃점
+    '·' : br(5) + br(23),
+    ':' : br(5) + br(2),
+    ';' : br(56) + br(23),
+    '/' : br(456) + br(34),
+    '“' : br(236),
+    '”' : br(356),
+    '"' : br(356),
+    # 겹낫표들
+    '『' : br(236),
+    '』' : br(356),
+    '`' : br(6) + br(236),
+    '\'' : br(356) + br(3),
+    # 낫표들 
+    '「' : br(6) + br(236),
+    '」' : br(356) + br(3),
+
+    # MARK 붙임표 주의
+    '(' : br(36),
+    ')' : br(36),
+    '{' : br(236) + br(23),
+    '}' : br(56) + br(356),
+    '[' : br(236) + br(3),
+    ']' : br(6) + br(356),
+    # minus 와 hangul symbol
+    '-' : br(36),
+    '­' : br(36),
+    # 줄표 --
+    '―' : br(36) * 2,
+    '~' : br(36) * 2,
+    '∼' : br(36) * 2,
+    # 줄임표 ......
+    # '' : br(6) * 3,
+    '*' : br(35) * 2,
+
+    ####
+    
+    # 아포스트로피와 닫는 작은 따옴표 구분 어려움
+    # '\'' : br(3),
+
+    # 위와 같음표 ''
+    '〃' : br(56) + br(23),
+
+    # 긴 소리표
+    'ː' : br(6) + br(3),
+
+    # 화폐 기호들 (with fullwidth)
+    '₩' : br(4) + br(2456), # 원
+    '￦' : br(4) + br(2456), # 원
+    '¢' : br(4) + br(14), # 센트
+    '￠': br(4) + br(14), # 센트
+    '$' : br(4) + br(145), # 달러
+    '＄' : br(4) + br(145), # 달러
+    '£' : br(4) + br(123), # 파운드
+    '￡' : br(4) + br(123), # 파운드
+    '¥' : br(4) + br(13456), # 엔
+    '￥' : br(4) + br(13456), # 엔
+    unicodedata.lookup('EURO SIGN') : br(4) + br(15), # 유로
+}    
 JAMO_TBL = KO_CHOSUNG_BRAILLE_TBL.copy()
 JAMO_TBL.update(KO_JUNGSEONG_BRAILLE_TBL)
 JAMO_TBL.update(KO_JONGSEONG_BRAILLE_TBL)
@@ -121,6 +185,7 @@ JAMO_TBL.update(KO_JONGSEONG_BRAILLE_TBL)
 SIMPLE_TR_TBL = JAMO_TBL.copy()
 # 초성 ㅇ생략
 SIMPLE_TR_TBL[l('아')] = ''
+SIMPLE_TR_TBL.update(KO_SYMBOL_TBL)
 
 
 # Hangul Compatibility Jamo 를 단독 자모로 처리

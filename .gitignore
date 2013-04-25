@@ -5,3 +5,7 @@
 /b
 *.beauty
 *.out
+.emacs*
+/happy.k
+/happy.u
+*.louis

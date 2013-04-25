@@ -35,3 +35,5 @@ def lookbehind_re(str):
 def neg_lookahead_re(str):
     return ext_re('!', str)
 
+def lookahead_re(str):
+    return ext_re('=', str)

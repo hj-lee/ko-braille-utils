@@ -5,10 +5,7 @@
 import unicodedata
 import re
 
-def br(dots):
-    dots = str(dots)
-    c = unicodedata.lookup('BRAILLE PATTERN DOTS-' + dots)
-    return c
+from utils import *
 
 # 된소리표
 BR_KO_SSANG = br(6)
@@ -19,22 +16,9 @@ BR_KO_WHOLE = br(123456)
 # 붙임표
 BR_KO_CONT = br(36)
 
-def nfd(str):
-    return unicodedata.normalize('NFD', str)
-
-def l(c):
-    return nfd(c)[0]
-
-def v(c):
-    return nfd(c)[1]
-
-def t(c):
-    return nfd(c)[2]
-
-def vt(c):
-    return nfd(c)[1:]
-
-
+# 로마자표, 로마자종료표
+BR_ROMAN_START = br(356)
+BR_ROMAN_END = br(256)
 
 #######################################################
 
@@ -114,6 +98,10 @@ KO_JONGSEONG_BRAILLE_TBL = {
     t('앟') : br(356),
 }
 
+JAMO_TBL = KO_CHOSUNG_BRAILLE_TBL.copy()
+JAMO_TBL.update(KO_JUNGSEONG_BRAILLE_TBL)
+JAMO_TBL.update(KO_JONGSEONG_BRAILLE_TBL)
+    
 KO_SYMBOL_TBL = {
     '.' : br(256),
     '?' : br(236),
@@ -177,10 +165,8 @@ KO_SYMBOL_TBL = {
     '¥' : br(4) + br(13456), # 엔
     '￥' : br(4) + br(13456), # 엔
     unicodedata.lookup('EURO SIGN') : br(4) + br(15), # 유로
-}    
-JAMO_TBL = KO_CHOSUNG_BRAILLE_TBL.copy()
-JAMO_TBL.update(KO_JUNGSEONG_BRAILLE_TBL)
-JAMO_TBL.update(KO_JONGSEONG_BRAILLE_TBL)
+}
+
 
 SIMPLE_TR_TBL = JAMO_TBL.copy()
 # 초성 ㅇ생략
@@ -261,24 +247,12 @@ T_CLASS = '[' + ''.join([chr(c) for c in range(T_START, T_END + 1)]) + ']'
 
 PRE_AE_V = '[' + v('야') + v('와') + v('우') + v('워')  + ']'
 
-def _ext_re(ext, str):
-    return '(?' + ext + str + ')'
-
-# Positive lookbehind assertion
-def _lookbehind_re(str):
-    return _ext_re('<=', str)
-
-# Negative lookahead_assertion
-def _neg_lookahead_re(str):
-    return _ext_re('!', str)
-
-
 ABBREV_JAMO_GROUP = [
     # 5절 10항
-    (re.compile(_lookbehind_re(V_CLASS) + nfd('예')),
+    (re.compile(lookbehind_re(V_CLASS) + nfd('예')),
      BR_KO_CONT + JAMO_TBL[v('예')]),
     # 5절 11항
-    (re.compile(_lookbehind_re(PRE_AE_V) + nfd('애')),
+    (re.compile(lookbehind_re(PRE_AE_V) + nfd('애')),
      BR_KO_CONT + JAMO_TBL[v('애')]),
     # 6절 12항 가, 사
     (re.compile(nfd('가')), br(1246)),
@@ -307,5 +281,5 @@ ABBREV_JAMO_GROUP = [
 # 이들의 약자는 첫소리 자음의 점자와 같다
 for c in ['나', '다', '마', '바', '자', '카', '타', '파', '하']:
     ABBREV_JAMO_GROUP.append(
-        (re.compile(nfd(c) + _neg_lookahead_re(l('아'))), JAMO_TBL[l(c)]))
+        (re.compile(nfd(c) + neg_lookahead_re(l('아'))), JAMO_TBL[l(c)]))
     
